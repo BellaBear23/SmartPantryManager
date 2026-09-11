@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green_primary"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="14dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Suggested Recipes"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-medium" />
+        </LinearLayout>
+
+        <!-- "No matches" message -->
+        <TextView
+            android:id="@+id/tv_no_matches"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="32dp"
+            android:text="No recipes match your pantry yet – add more ingredients."
+            android:textAlignment="center"
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <!-- Strict matches header -->
+        <TextView
+            android:id="@+id/tv_strict_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green_light"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="✅  Recipes you can make RIGHT NOW"
+            android:textColor="@color/green_dark"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium"
+            android:visibility="gone" />
+
+        <!-- Strict matches RecyclerView (non-scrolling inside ScrollView) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_strict_recipes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone" />
+
+        <!-- Almost-there header -->
+        <TextView
+            android:id="@+id/tv_almost_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/amber_light"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:layout_marginTop="8dp"
+            android:text="🛒  Almost There – missing 1 ingredient"
+            android:textColor="@color/amber_dark"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium"
+            android:visibility="gone" />
+
+        <!-- Almost-there RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_almost_recipes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</ScrollView>
