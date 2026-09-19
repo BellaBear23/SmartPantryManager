@@ -52,6 +52,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_PANTRY + " (" +
                 COL_PANTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -95,9 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COL_PANTRY_QUANTITY, ingredient.getQuantity());
         cv.put(COL_PANTRY_UNIT, ingredient.getUnit().trim().toLowerCase());
         cv.put(COL_PANTRY_EXPIRY, ingredient.getExpiryDate());
-        long id = db.insert(TABLE_PANTRY, null, cv);
-        db.close();
-        return id;
+        return db.insert(TABLE_PANTRY, null, cv);
     }
 
     public List<Ingredient> getAllIngredients() {
@@ -110,7 +114,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
         return list;
     }
 
@@ -123,7 +126,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ingredient = cursorToIngredient(cursor);
         }
         cursor.close();
-        db.close();
         return ingredient;
     }
 
@@ -134,18 +136,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COL_PANTRY_QUANTITY, ingredient.getQuantity());
         cv.put(COL_PANTRY_UNIT, ingredient.getUnit().trim().toLowerCase());
         cv.put(COL_PANTRY_EXPIRY, ingredient.getExpiryDate());
-        int rows = db.update(TABLE_PANTRY, cv, COL_PANTRY_ID + "=?",
+        return db.update(TABLE_PANTRY, cv, COL_PANTRY_ID + "=?",
                 new String[]{String.valueOf(ingredient.getId())});
-        db.close();
-        return rows;
     }
 
     public int deleteIngredient(long id) {
         SQLiteDatabase db = getWritableDatabase();
-        int rows = db.delete(TABLE_PANTRY, COL_PANTRY_ID + "=?",
+        return db.delete(TABLE_PANTRY, COL_PANTRY_ID + "=?",
                 new String[]{String.valueOf(id)});
-        db.close();
-        return rows;
     }
 
     private Ingredient cursorToIngredient(Cursor c) {
@@ -170,7 +168,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
         return recipes;
     }
 
@@ -184,7 +181,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             recipe.setRequiredIngredients(getRecipeIngredients(db, recipe.getId()));
         }
         cursor.close();
-        db.close();
         return recipe;
     }
 
