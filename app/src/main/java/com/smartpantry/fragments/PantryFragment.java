@@ -24,15 +24,9 @@ import com.smartpantry.models.Ingredient;
 
 import java.util.List;
 
-/**
- * PantryFragment displays the user's current pantry as a RecyclerView.
- * Provides add (FAB), edit, and delete actions for CRUD operations.
- * Refreshes its list every time it becomes visible (onResume).
- */
 public class PantryFragment extends Fragment implements PantryAdapter.PantryAdapterListener {
 
     public static final String EXTRA_INGREDIENT = "ingredient";
-    public static final int REQUEST_ADD_EDIT = 1001;
 
     private RecyclerView recyclerView;
     private PantryAdapter adapter;
@@ -63,7 +57,6 @@ public class PantryFragment extends Fragment implements PantryAdapter.PantryAdap
 
         updateEmptyState(ingredients);
 
-        // FAB to add new ingredient
         FloatingActionButton fab = view.findViewById(R.id.fab_add_ingredient);
         fab.setOnClickListener(v -> openAddEditScreen(null));
     }
@@ -71,11 +64,9 @@ public class PantryFragment extends Fragment implements PantryAdapter.PantryAdap
     @Override
     public void onResume() {
         super.onResume();
-        // Refresh list when returning from AddEditIngredientActivity
         refreshList();
     }
 
-    /** Opens AddEditIngredientActivity. Pass null to add, or an Ingredient to edit. */
     private void openAddEditScreen(@Nullable Ingredient ingredient) {
         Intent intent = new Intent(requireContext(), AddEditIngredientActivity.class);
         if (ingredient != null) {
@@ -91,7 +82,6 @@ public class PantryFragment extends Fragment implements PantryAdapter.PantryAdap
 
     @Override
     public void onDeleteIngredient(Ingredient ingredient) {
-        // Show a confirmation dialog before deleting
         new AlertDialog.Builder(requireContext())
                 .setTitle("Delete ingredient")
                 .setMessage("Remove \"" + ingredient.getName() + "\" from your pantry?")

@@ -6,10 +6,6 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Model representing a recipe stored in the database.
- * Implements Parcelable so it can be passed between Activities.
- */
 public class Recipe implements Parcelable {
 
     private long id;
@@ -26,8 +22,6 @@ public class Recipe implements Parcelable {
         this.requiredIngredients = new ArrayList<>();
     }
 
-    // --- Getters & Setters ---
-
     public long getId() { return id; }
     public String getName() { return name; }
     public String getSteps() { return steps; }
@@ -36,16 +30,12 @@ public class Recipe implements Parcelable {
     public List<RecipeIngredient> getRequiredIngredients() { return requiredIngredients; }
     public void setRequiredIngredients(List<RecipeIngredient> list) { this.requiredIngredients = list; }
 
-    // --- Parcelable ---
-
     protected Recipe(Parcel in) {
         id = in.readLong();
         name = in.readString();
         steps = in.readString();
         category = in.readString();
         requiredIngredients = new ArrayList<>();
-        // RecipeIngredient is not Parcelable; when passing via Intent we pass only the recipe ID
-        // and re-query the database in the receiving Activity.
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {

@@ -23,13 +23,6 @@ import com.smartpantry.models.Recipe;
 
 import java.util.List;
 
-/**
- * SuggestedRecipesFragment runs the strict-matching algorithm on the current pantry
- * and displays only recipes the user can make with ingredients they already have.
- *
- * A separate "Almost There" section (bonus feature) lists recipes missing exactly
- * one ingredient, clearly labelled to separate it from strict matches.
- */
 public class SuggestedRecipesFragment extends Fragment implements RecipeAdapter.RecipeClickListener {
 
     private RecyclerView rvStrict, rvAlmost;
@@ -66,13 +59,9 @@ public class SuggestedRecipesFragment extends Fragment implements RecipeAdapter.
     @Override
     public void onResume() {
         super.onResume();
-        runMatching(); // re-run whenever pantry may have changed
+        runMatching();
     }
 
-    /**
-     * Loads pantry and all recipes, runs strict and almost-there matching,
-     * then updates the UI accordingly.
-     */
     private void runMatching() {
         List<Ingredient> pantry = db.getAllIngredients();
         List<Recipe> allRecipes = db.getAllRecipes();
@@ -80,7 +69,6 @@ public class SuggestedRecipesFragment extends Fragment implements RecipeAdapter.
         List<Recipe> strictMatches = RecipeMatcher.getStrictMatches(allRecipes, pantry);
         List<Recipe> almostMatches = RecipeMatcher.getAlmostMatches(allRecipes, pantry);
 
-        // -- Strict matches section --
         if (strictMatches.isEmpty()) {
             tvStrictHeader.setVisibility(View.GONE);
             rvStrict.setVisibility(View.GONE);
@@ -100,7 +88,6 @@ public class SuggestedRecipesFragment extends Fragment implements RecipeAdapter.
             }
         }
 
-        // -- Almost-there section (bonus) --
         if (almostMatches.isEmpty()) {
             tvAlmostHeader.setVisibility(View.GONE);
             rvAlmost.setVisibility(View.GONE);

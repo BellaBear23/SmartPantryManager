@@ -9,10 +9,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.smartpantry.R;
 
-/**
- * SettingsActivity wraps SettingsFragment for standalone access.
- * (SettingsFragment is also accessible from MainActivity's bottom nav.)
- */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override

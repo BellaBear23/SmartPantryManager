@@ -1,6 +1,5 @@
 package com.smartpantry.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,13 +8,9 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.smartpantry.R;
 import com.smartpantry.fragments.PantryFragment;
-import com.smartpantry.fragments.SuggestedRecipesFragment;
 import com.smartpantry.fragments.SettingsFragment;
+import com.smartpantry.fragments.SuggestedRecipesFragment;
 
-/**
- * MainActivity hosts the bottom navigation bar and swaps between
- * the three main Fragments: Pantry, Suggested Recipes, and Settings.
- */
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
@@ -27,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNav = findViewById(R.id.bottom_navigation);
 
-        // Load pantry fragment on start
         if (savedInstanceState == null) {
             loadFragment(new PantryFragment());
         }
