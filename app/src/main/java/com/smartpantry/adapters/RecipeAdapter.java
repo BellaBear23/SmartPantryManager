@@ -13,10 +13,6 @@ import com.smartpantry.models.Recipe;
 
 import java.util.List;
 
-/**
- * RecyclerView adapter for displaying a list of Recipe objects.
- * Used in both the Suggested Recipes screen and the Almost There screen.
- */
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
     public interface RecipeClickListener {
@@ -49,7 +45,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         Recipe recipe = recipes.get(position);
         holder.tvName.setText(recipe.getName());
         holder.tvCategory.setText(recipe.getCategory());
-        holder.tvIngredientCount.setText(recipe.getRequiredIngredients().size() + " ingredients");
+        int count = recipe.getRequiredIngredients().size();
+        holder.tvIngredientCount.setText(count + (count == 1 ? " ingredient" : " ingredients"));
         holder.itemView.setOnClickListener(v -> listener.onRecipeClick(recipe));
     }
 

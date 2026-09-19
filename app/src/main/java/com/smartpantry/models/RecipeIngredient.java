@@ -1,9 +1,5 @@
 package com.smartpantry.models;
 
-/**
- * Model representing a single ingredient required by a recipe,
- * including the required quantity and unit.
- */
 public class RecipeIngredient {
 
     private long id;
@@ -27,10 +23,10 @@ public class RecipeIngredient {
     public String getUnit() { return unit; }
 
     public String getDisplayText() {
-        // Format quantity: show as integer if it's a whole number
         String qty = (quantity == Math.floor(quantity))
                 ? String.valueOf((int) quantity)
                 : String.valueOf(quantity);
-        return qty + " " + unit + "  " + name;
+        String unitPart = unit.equals("whole") ? "" : unit + " ";
+        return qty + " " + unitPart + name;
     }
 }

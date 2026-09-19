@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +25,6 @@
                 android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
-        <!-- "No matches" message -->
         <TextView
             android:id="@+id/tv_no_matches"
             android:layout_width="match_parent"
@@ -39,7 +37,6 @@
             android:textSize="15sp"
             android:visibility="gone" />
 
-        <!-- Strict matches header -->
         <TextView
             android:id="@+id/tv_strict_header"
             android:layout_width="match_parent"
@@ -53,7 +50,6 @@
             android:fontFamily="sans-serif-medium"
             android:visibility="gone" />
 
-        <!-- Strict matches RecyclerView (non-scrolling inside ScrollView) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_strict_recipes"
             android:layout_width="match_parent"
@@ -61,7 +57,6 @@
             android:nestedScrollingEnabled="false"
             android:visibility="gone" />
 
-        <!-- Almost-there header -->
         <TextView
             android:id="@+id/tv_almost_header"
             android:layout_width="match_parent"
@@ -70,13 +65,12 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:layout_marginTop="8dp"
-            android:text="🛒  Almost There – missing 1 ingredient"
+            android:text="🛒  Almost There – 1 ingredient missing or short"
             android:textColor="@color/amber_dark"
             android:textSize="13sp"
             android:fontFamily="sans-serif-medium"
             android:visibility="gone" />
 
-        <!-- Almost-there RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_almost_recipes"
             android:layout_width="match_parent"
