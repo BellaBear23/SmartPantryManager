@@ -23,7 +23,6 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Name field -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +42,6 @@
                 android:inputType="textCapWords"
                 android:padding="12dp" />
 
-            <!-- Quantity field -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,11 +57,11 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
                 android:background="@color/white"
+                android:digits="0123456789.,"
                 android:hint="e.g. 200"
                 android:inputType="numberDecimal"
                 android:padding="12dp" />
 
-            <!-- Unit field -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,7 +81,6 @@
                 android:inputType="text"
                 android:padding="12dp" />
 
-            <!-- Expiry date (optional) -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +100,6 @@
                 android:inputType="date"
                 android:padding="12dp" />
 
-            <!-- Save button -->
             <Button
                 android:id="@+id/btn_save_ingredient"
                 android:layout_width="match_parent"

@@ -7,25 +7,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.annotation.NonNull;
 
 import com.smartpantry.R;
 import com.smartpantry.database.DatabaseHelper;
 import com.smartpantry.fragments.PantryFragment;
 import com.smartpantry.models.Ingredient;
 
-/**
- * AddEditIngredientActivity handles both creating a new pantry ingredient
- * and editing an existing one. It receives an optional Ingredient via Intent
- * (if editing) and performs input validation before saving to the database.
- */
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 public class AddEditIngredientActivity extends AppCompatActivity {
 
     private EditText etName, etQuantity, etUnit, etExpiry;
     private DatabaseHelper db;
-    private Ingredient existingIngredient; // null when adding a new ingredient
+    private Ingredient existingIngredient;
     private boolean isEditMode = false;
 
     @Override
@@ -35,21 +34,18 @@ public class AddEditIngredientActivity extends AppCompatActivity {
 
         db = DatabaseHelper.getInstance(this);
 
-        // Toolbar with back button
         Toolbar toolbar = findViewById(R.id.toolbar_add_edit);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        // Bind views
         etName = findViewById(R.id.et_ingredient_name);
         etQuantity = findViewById(R.id.et_ingredient_quantity);
         etUnit = findViewById(R.id.et_ingredient_unit);
         etExpiry = findViewById(R.id.et_ingredient_expiry);
         Button btnSave = findViewById(R.id.btn_save_ingredient);
 
-        // Check if we are editing an existing ingredient
         if (getIntent().hasExtra(PantryFragment.EXTRA_INGREDIENT)) {
             existingIngredient = getIntent().getParcelableExtra(PantryFragment.EXTRA_INGREDIENT);
             isEditMode = true;
@@ -57,7 +53,6 @@ public class AddEditIngredientActivity extends AppCompatActivity {
 
         if (isEditMode && existingIngredient != null) {
             setTitle("Edit Ingredient");
-            // Pre-populate fields with existing data
             etName.setText(existingIngredient.getName());
             String qty = (existingIngredient.getQuantity() == Math.floor(existingIngredient.getQuantity()))
                     ? String.valueOf((int) existingIngredient.getQuantity())
@@ -74,17 +69,12 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         btnSave.setOnClickListener(v -> saveIngredient());
     }
 
-    /**
-     * Validates all input fields and either inserts or updates the ingredient.
-     * On success, finishes the Activity (returning to PantryFragment via onResume refresh).
-     */
     private void saveIngredient() {
         String name = etName.getText().toString().trim();
         String quantityStr = etQuantity.getText().toString().trim();
         String unit = etUnit.getText().toString().trim();
         String expiry = etExpiry.getText().toString().trim();
 
-        // --- Input Validation ---
         if (TextUtils.isEmpty(name)) {
             etName.setError("Ingredient name is required");
             etName.requestFocus();
@@ -102,7 +92,7 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         }
         double quantity;
         try {
-            quantity = Double.parseDouble(quantityStr);
+            quantity = Double.parseDouble(quantityStr.replace(',', '.'));
             if (quantity <= 0) {
                 etQuantity.setError("Quantity must be greater than zero");
                 etQuantity.requestFocus();
@@ -118,9 +108,8 @@ public class AddEditIngredientActivity extends AppCompatActivity {
             etUnit.requestFocus();
             return;
         }
-        // Validate optional expiry date format if provided
-        if (!TextUtils.isEmpty(expiry) && !expiry.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            etExpiry.setError("Use format YYYY-MM-DD (e.g. 2025-12-31)");
+        if (!TextUtils.isEmpty(expiry) && !isValidDate(expiry)) {
+            etExpiry.setError("Enter a valid date as YYYY-MM-DD (e.g. 2026-12-31)");
             etExpiry.requestFocus();
             return;
         }
@@ -151,10 +140,22 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         }
     }
 
+    private boolean isValidDate(String value) {
+        if (!value.matches("\\d{4}-\\d{2}-\\d{2}")) return false;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        format.setLenient(false);
+        try {
+            format.parse(value);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish(); // back button closes this Activity
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
