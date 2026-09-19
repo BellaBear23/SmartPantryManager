@@ -149,10 +149,10 @@ public class RecipeMatcher {
                 return "weight";
             case "l":
             case "ml":
-                return "volume";
-            case "tbsp":
             case "tsp":
-                return "spoon";
+            case "tbsp":
+            case "cup":
+                return "volume";
             default:
                 return normUnit;
         }
@@ -160,13 +160,12 @@ public class RecipeMatcher {
 
     private static double toBaseAmount(double qty, String normUnit) {
         switch (normUnit) {
-            case "kg": return qty * 1000;
-            case "g": return qty;
-            case "l": return qty * 1000;
-            case "ml": return qty;
-            case "tbsp": return qty * 3;
-            case "tsp": return qty;
-            default: return qty;
+            case "kg":   return qty * 1000;
+            case "l":    return qty * 1000;
+            case "tsp":  return qty * 5;
+            case "tbsp": return qty * 15;
+            case "cup":  return qty * 250;
+            default:     return qty;
         }
     }
 }
